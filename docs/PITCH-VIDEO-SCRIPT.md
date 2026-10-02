@@ -19,6 +19,10 @@ Judging criteria: founder–market fit, insight, product and execution, market s
 
 Slide 9 (competition) can be shown silently during slide 8 if time is short.
 
+## Silent slide video
+
+`python docs/deck/build_pitch_video.py` renders the slides in `docs/deck/slides/` into `docs/deck/out/pitch-video.mp4` (2:52, slides timed to this script) and `pitch-video.srt` (the narration, timed). Record your voice over the video, for example in CapCut or Clipchamp: import the MP4, add a voice-over track, and use the SRT as a teleprompter or as subtitles. After editing a slide (e.g. replacing `[Your name]`), run the script again.
+
 ## Recording checklist
 
 - Quiet room, wired or phone earbuds microphone
