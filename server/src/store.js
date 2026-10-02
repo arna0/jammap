@@ -3,7 +3,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { QUORUM, cellBounds, cellCenter } from './shared.js';
+import { QUORUM, cellBounds, cellCenter, haversineKm } from './shared.js';
 import { estimateSource } from './localize.js';
 
 const MAX_REPORTS = 5000;
@@ -125,8 +125,52 @@ export class Store {
     if (pos) d.lastPos = pos;
   }
 
+  /**
+   * On-chain incidents are (zone, 5-minute window) pairs. A jammer that stays on for
+   * 20 minutes produces four of them; for people we merge consecutive windows of the
+   * same zone (gaps up to 2 windows) into one event.
+   */
+  events(sinceTs) {
+    const byCell = new Map();
+    for (const inc of this.incidents.values()) {
+      if (inc.lastTs < sinceTs) continue;
+      if (!byCell.has(inc.cellId)) byCell.set(inc.cellId, []);
+      byCell.get(inc.cellId).push(inc);
+    }
+    const out = [];
+    for (const list of byCell.values()) {
+      list.sort((a, b) => Number(a.window) - Number(b.window));
+      let cur = null;
+      for (const inc of list) {
+        if (cur && Number(inc.window) - cur.lastWindow <= 2) {
+          cur.kinds |= inc.kinds;
+          for (const d of inc.reporters) cur.reporters.add(d);
+          cur.maxSeverity = Math.max(cur.maxSeverity, inc.maxSeverity);
+          cur.confirmed ||= inc.confirmed;
+          cur.confirmedAt = cur.confirmedAt ?? inc.confirmedAt;
+          cur.lastTs = Math.max(cur.lastTs, inc.lastTs);
+          cur.reportIds.push(...inc.reportIds);
+          cur.txs.push(...inc.txs);
+          cur.test ||= inc.test;
+          cur.windows += 1;
+          cur.lastWindow = Number(inc.window);
+        } else {
+          cur = { ...inc, reporters: new Set(inc.reporters), reportIds: [...inc.reportIds], txs: [...inc.txs], windows: 1, lastWindow: Number(inc.window) };
+          out.push(cur);
+        }
+      }
+    }
+    return out;
+  }
+
   incidentView(inc, { precise }) {
-    const reps = inc.reportIds.map((id) => this.reports.find((r) => r.id === id)).filter(Boolean);
+    // Latest report per sensor: one row per phone, and the source fit isn't skewed by repeats.
+    const latest = new Map();
+    for (const id of inc.reportIds) {
+      const r = this.reports.find((x) => x.id === id);
+      if (r) latest.set(r.deviceKey, r);
+    }
+    const reps = [...latest.values()];
     const view = {
       id: inc.key,
       cellId: String(inc.cellId),
@@ -142,11 +186,14 @@ export class Store {
       zone: cellBounds(inc.cellId),
       zoneCenter: cellCenter(inc.cellId),
       txs: inc.txs,
+      windows: inc.windows || 1,
       test: inc.test,
     };
     if (precise) {
       view.source = estimateSource(reps);
       view.reports = reps.map((r) => ({
+        sensor: r.deviceKey.slice(0, 4) + '…' + r.deviceKey.slice(-4),
+        distanceKm: view.source ? Math.round(haversineKm(view.source, r) * 100) / 100 : null,
         lat: r.lat,
         lon: r.lon,
         ts: r.ts * 1000,

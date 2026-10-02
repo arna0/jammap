@@ -143,7 +143,7 @@ async function tick(t, cycleNo) {
         if (r.status === 202) {
           counters.accepted++;
           const inc = r.body.incident;
-          console.log(`  ${p.name.padEnd(7)} REPORT ${kind === 1 ? 'jamming' : 'spoofing'} sev ${severity} -> zone ${inc.cellId}: ${inc.reporters}/${inc.quorum}${inc.confirmed ? '  ✅ CONFIRMED' : ''}`);
+          console.log(`  ${p.name.padEnd(7)} REPORT ${kind === 1 ? 'jamming' : 'spoofing'} sev ${severity} -> zone ${inc.cellId}: ${inc.reporters}/${inc.quorum}${inc.confirmed ? '  CONFIRMED' : ''}`);
         } else if (r.status !== 409) {
           counters.rejected++;
           console.log(`  ${p.name.padEnd(7)} report rejected ${r.status}: ${r.body.error}`);

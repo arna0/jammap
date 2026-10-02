@@ -53,10 +53,10 @@ class MainActivity : Activity() {
         key = DeviceKey.load(this)
         api = Api(prefs.getString("server", "http://192.168.1.10:8787")!!)
         monitor = GnssMonitor(this) { e -> runOnUiThread { onEpoch(e) } }
-        monitor.onStatus = { msg -> runOnUiThread { addLog("⚠ $msg") } }
+        monitor.onStatus = { msg -> runOnUiThread { addLog(msg) } }
         setContentView(buildUi())
-        addLog("device key ${key.address.take(6)}…${key.address.takeLast(6)}")
-        if (!prefs.getBoolean("registered", false)) addLog("enter a reward wallet and tap Register")
+        addLog("Device key ${key.address.take(6)}…${key.address.takeLast(6)}")
+        if (!prefs.getBoolean("registered", false)) addLog("Enter a reward wallet and tap Register")
     }
 
     // ---------------------------------------------------------------- detection loop
@@ -86,7 +86,7 @@ class MainActivity : Activity() {
         }
         val rep = r.report ?: return
         if (e.lat == null || e.lon == null) {
-            addLog("detected ${r.state} but no position fix — not reported")
+            addLog("Detected ${r.state}, but there is no position fix yet. Not reported.")
             return
         }
         sendReport(e.lat, e.lon, rep, f)
@@ -94,12 +94,12 @@ class MainActivity : Activity() {
 
     private fun renderState(state: String) {
         val (label, color) = when (state) {
-            "warmup" -> "LEARNING BASELINE…" to "#3A4A63"
-            "clean" -> "CLEAN SKY" to "#1E7F5C"
-            "jamming" -> "JAMMING DETECTED" to "#D63447"
-            "spoofing" -> "SPOOFING DETECTED" to "#8E44D9"
-            "obstruction" -> "BLOCKED (not jamming)" to "#B7791F"
-            else -> "WEAK SIGNAL" to "#5A6478"
+            "warmup" -> "Calibrating…" to "#3A4250"
+            "clean" -> "No interference" to "#1B6E45"
+            "jamming" -> "Jamming detected" to "#B42F35"
+            "spoofing" -> "Spoofing detected" to "#6E35AD"
+            "obstruction" -> "Signal blocked, not reported" to "#7A5A1E"
+            else -> "Weak signal" to "#4A5260"
         }
         stateView.text = label
         stateView.setBackgroundColor(Color.parseColor(color))
@@ -111,7 +111,7 @@ class MainActivity : Activity() {
         val owner = ownerInput.text.toString().trim()
         val ownerBytes = runCatching { Base58.decode(owner) }.getOrNull()
         if (ownerBytes == null || ownerBytes.size != 32) {
-            addLog("✗ reward wallet must be a Solana address")
+            addLog("Error: reward wallet must be a Solana address")
             return
         }
         saveInputs()
@@ -120,13 +120,13 @@ class MainActivity : Activity() {
             .put("owner", owner)
             .put("signature", key.signB64(Protocol.registerMessage(ownerBytes)))
             .put("label", android.os.Build.MODEL)
-        addLog("registering…")
+        addLog("Registering…")
         api.post("/v1/devices/register", body) { res ->
             runOnUiThread {
                 if (res.status == 200) {
                     prefs.edit().putBoolean("registered", true).apply()
-                    addLog("✓ registered" + (res.body.optString("tx").takeIf { it.isNotEmpty() && it != "null" }?.let { " tx ${it.take(8)}…" } ?: ""))
-                } else addLog("✗ register ${res.status}: ${res.body.optString("error")}")
+                    addLog("Registered" + (res.body.optString("tx").takeIf { it.isNotEmpty() && it != "null" }?.let { " tx ${it.take(8)}…" } ?: ""))
+                } else addLog("Error: register ${res.status}: ${res.body.optString("error")}")
             }
         }
     }
@@ -152,7 +152,7 @@ class MainActivity : Activity() {
             .put("signature", key.signB64(Protocol.reportMessage(cell, ts, rep.kind, rep.severity)))
             .put("test", testChk.isChecked)
         val what = if (rep.kind == Protocol.KIND_JAMMING) "jamming" else "spoofing"
-        addLog("→ signed $what report (sev ${rep.severity}) for zone $cell")
+        addLog("Sent signed $what report (sev ${rep.severity}) for zone $cell")
         api.post("/v1/reports", body) { res ->
             runOnUiThread {
                 if (res.status == 202) {
@@ -160,8 +160,8 @@ class MainActivity : Activity() {
                     val inc = res.body.optJSONObject("incident")
                     val n = inc?.optInt("reporters") ?: 0
                     val q = inc?.optInt("quorum") ?: 3
-                    addLog("✓ accepted · zone has $n/$q phones" + if (inc?.optBoolean("confirmed") == true) " · CONFIRMED" else "")
-                } else addLog("✗ report ${res.status}: ${res.body.optString("error")}")
+                    addLog("Accepted · $n of $q phones in this zone" + if (inc?.optBoolean("confirmed") == true) " · confirmed" else "")
+                } else addLog("Error: report ${res.status}: ${res.body.optString("error")}")
             }
         }
     }
@@ -184,7 +184,7 @@ class MainActivity : Activity() {
             monitor.stop()
             running = false
             startBtn.text = "Start listening"
-            addLog("stopped")
+            addLog("Stopped")
             return
         }
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -195,12 +195,12 @@ class MainActivity : Activity() {
         monitor.start()
         running = true
         startBtn.text = "Stop"
-        addLog("listening to satellites…")
+        addLog("Listening to satellites…")
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) toggle() else addLog("✗ location permission is required")
+        if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) toggle() else addLog("Error: location permission is required")
     }
 
     override fun onDestroy() {
@@ -250,8 +250,8 @@ class MainActivity : Activity() {
             setTextColor(Color.WHITE)
             gravity = Gravity.CENTER
             setPadding(0, pad, 0, pad)
-            text = "IDLE"
-            setBackgroundColor(Color.parseColor("#3A4A63"))
+            text = "Not listening"
+            setBackgroundColor(Color.parseColor("#3A4250"))
         }
         root.addView(stateView, LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply { topMargin = pad })
 
@@ -287,7 +287,7 @@ class MainActivity : Activity() {
         root.addView(buttons)
 
         testChk = CheckBox(this).apply {
-            text = "TEST: inject synthetic jamming (no radio involved)"
+            text = "Test mode: add a simulated jamming signature"
             setTextColor(Color.parseColor("#FFB547"))
         }
         root.addView(testChk)
