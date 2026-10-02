@@ -1,18 +1,22 @@
-# Демо-видео (до 3 минут) — «как это работает»
+# Product demo video script (3 minutes max)
 
-Колоссеум просит отдельное видео продукта **не длиннее 3 минут**. Записывай экран (OBS или Win+G), голос — на английском, спокойно. Ниже план кадров. Текст — подсказка, **говори своими словами**.
+Screen recording (OBS or Windows Game Bar, Win+G) with voice-over. Show the product, not slides.
 
-| Время | Что на экране | О чём сказать |
+## Before recording
+
+1. Deploy to devnet (docs/SETUP.md, step 3) so the feed shows real Solana transactions instead of "local".
+2. Start the relayer: `npm run demo`. Reset state: `curl -X POST http://localhost:8787/v1/admin/reset`. Start the simulator: `npm run sim`.
+3. Zoom the browser to 125% so text is readable.
+4. Have the Android app open on a phone mirrored to the laptop (Android Studio's Running Devices window or scrcpy).
+
+## Shots and narration
+
+| Time | On screen | Narration |
 |---|---|---|
-| 0:00–0:15 | Карта JamMap, живая | Одной фразой: JamMap находит глушение и подмену GPS обычными телефонами и записывает подтверждённые случаи в Solana. |
-| 0:15–0:45 | Телефон (запись экрана Android): статус «No interference», график C/N0 и AGC | Приложение читает сырые данные спутников. Две цифры: сила сигнала и усиление приёмника (AGC). |
-| 0:45–1:05 | Телефон в металлической коробке/фольге → статус **«Signal blocked, not reported»** | Главный трюк: при глушении AGC падает, при простом блокировании растёт. Поэтому мы не путаем карман с атакой и не шлём ложных отчётов. |
-| 1:05–1:30 | Галочка «Test mode» → **«Jamming detected»** → в логе «accepted · zone has 1/3 phones» | Глушилки незаконны, поэтому подмешиваем синтетическую сигнатуру. Телефон подписывает отчёт своим ключом, SOL на телефоне нет. |
-| 1:30–2:00 | Терминал с симулятором + карта: пунктирная зона становится сплошной красной, статус «Confirmed»; открыть карточку инцидента и показать график Evidence; ссылка на транзакцию → Solana Explorer | Инцидент подтверждается, только когда 3 разных телефона его видят. Программа на Solana сама проверяет подпись каждого телефона через Ed25519, ретранслятор подделать отчёт не может. Фейковый отчёт мошенника так и остаётся 1/3. |
-| 2:00–2:35 | Вкладка **Route check**: поставить A и B через зону → «Check route · $0.01» → «High risk», какие километры маршрута задеты. Или `npm run buy` в терминале | Покупатель — сервер дрона. Платит за запрос через x402 в USDC: без аккаунтов и API-ключей. Получает оценку места источника. |
-| 2:35–2:55 | Код: `lib.rs` (verify_prev_ed25519, quorum), README | Что построено за хакатон: программа Anchor, ретранслятор, x402 API, Android-приложение, симулятор, тесты. |
-
-**Перед записью:**
-1. `npm run demo` + сброс (`curl -X POST http://localhost:8787/v1/admin/reset`) + `npm run sim`.
-2. Включи devnet (шаг 3 в RU-START-HERE), чтобы в ленте были настоящие транзакции, а не «local».
-3. Увеличь масштаб браузера до 125%, чтобы текст читался на видео.
+| 0:00–0:15 | Dashboard, live | JamMap detects GPS jamming and spoofing with ordinary phones and records confirmed incidents on Solana. Here's how it works end to end. |
+| 0:15–0:40 | Phone: status "No interference", live chart of signal-to-noise and gain | The app reads raw satellite measurements every second. The teal line is signal-to-noise; the amber line is the receiver's gain compared with its baseline. |
+| 0:40–1:00 | Put the phone in a metal tin or wrap it in foil: status "Signal blocked, not reported" | If I block the signal, signal-to-noise drops, but the gain goes up. The app knows this is not an attack and sends nothing. That's how we avoid false alarms from pockets and tunnels. |
+| 1:00–1:25 | Turn on Test mode: status "Jamming detected", log shows "Accepted · 1 of 3 phones" | Real jammers are illegal, so test mode adds a simulated jamming signature. Now both values drop. The phone signs a report with its own key and sends it. One phone is not enough to confirm anything. |
+| 1:25–1:55 | Dashboard with simulator running: dashed zone turns solid red, status "Confirmed". Open the incident, show the evidence chart, click a transaction link to Solana Explorer | When a third phone in the same area agrees, the Solana program confirms the incident. Each point here is one phone, and all of them sit in the jamming corner. Every report is a Solana transaction, and the program checked each phone's signature itself. A single dishonest phone, like this one far away, stays unconfirmed. |
+| 1:55–2:30 | Route check tab: click A and B across the red zone, press "Check route · $0.01", show "High risk" and the affected kilometres | A drone operator checks a route before a flight. The API asks for one cent in USDC through x402, the client pays, and gets the risk and exactly which part of the route crosses interference. No account and no API key. |
+| 2:30–2:55 | Code: `programs/jammap/src/lib.rs` (signature check, quorum), then README | Built during the hackathon: the Anchor program with signature checks and quorum, the relayer and paid API, the Android app, the dashboard, and a simulator with tests. |

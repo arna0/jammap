@@ -1,58 +1,64 @@
-# Go-to-market и проверка спроса
+# Go-to-market and demand validation
 
-Судьи Colosseum отдельно оценивают **traction** и спрашивают про проверку спроса и дистрибуцию.
-За 6–8 октября цель — **15 контактов, 5 разговоров, 3 письменных «да, хочу попробовать / заплатил бы»**.
+Colosseum judges score traction and ask how demand was validated. Target for this week: **15 contacts, 5 conversations, 3 written "yes, we'd try or pay for this"**.
 
-## Кто платит (покупатели данных)
-| Сегмент | Почему им больно | Что покупают |
+## Customers (who pays)
+
+| Segment | Why it hurts | What they buy |
 |---|---|---|
-| Операторы дронов (агро, съёмка, доставка) | При глушении дрон теряет позицию, падает или улетает | Проверка риска по маршруту перед вылетом (API, оплата за запрос) |
-| Точное земледелие (тракторы с RTK-навигацией) | Сбой GPS = огрехи в посеве, простой техники | Алерты по их полям |
-| Логистика и телематика (трекеры фур) | «Дыры» в треках и ложные позиции у границ | Карта риска по коридорам |
-| Страховщики (дроны, авиация, грузы) | Нужно доказать, был ли сбой GPS в момент аварии | Проверяемая история инцидентов (подписано и записано в Solana) |
-| Авиация малой высоты и вертолёты | Карты по данным самолётов не видят землю | Наземный слой к существующим картам |
+| Drone operators (agriculture, survey, delivery) | Lost GPS causes crashes and flyaways | Route check before each flight (per request) |
+| Precision agriculture | Tractors and sprayers steer by RTK GPS; outages ruin passes and idle machines | Alerts for their fields |
+| Fleet telematics | Gaps and false positions in truck tracks near borders | Corridor risk maps |
+| Insurers (drones, cargo, aviation) | Must establish whether GPS failed at the time of a claim | Verifiable incident history |
+| Low-altitude aviation, helicopters | Aircraft-based maps miss the ground layer | Ground-level layer for existing maps |
 
-## Кто даёт данные (предложение)
-Обычные люди с Android-телефонами получают токены JAM за подтверждённые отчёты.
-Первые узлы сети: участники Superteam KZ и буткемпа, студенты, водители такси и курьеры (телефон весь день в движении).
+## Supply (who provides data)
 
-## Модель дохода
-- **Оплата за запрос (x402):** $0.01–0.05 за проверку точки или маршрута. Машины платят машинам, без договоров.
-- **Подписка для компаний:** алерты по зонам, история для страховых споров, $200–2000 в месяц.
-- **Доля выручки уходит в хранилище наград**, поэтому чем больше покупают данных, тем больше зарабатывают телефоны.
+Ordinary Android users earn JAM tokens for confirmed reports. First sensors: Superteam Kazakhstan members, bootcamp participants, students, taxi and courier drivers (phones moving all day).
 
-## Почему сейчас (insight для питча)
-1. По данным IATA, с 2023 по 2025 год глушение выросло на 67%, подмена — на 193%.
-2. С 2021 года Android отдаёт сырые измерения GNSS, включая AGC. В кармане у миллиардов людей уже лежит приёмник, который способен это заметить.
-3. На Solana подтверждать каждый отчёт можно за доли цента, а x402 + USDC позволяют продавать данные дронам без людей посередине.
+## Revenue
 
-## Скрипт сообщения (RU)
-> Здравствуйте! Я делаю JamMap: сеть телефонов, которая ловит глушение и подмену GPS на земле и показывает зоны риска. Сталкивались ли ваши дроны / техника / трекеры со сбоями GPS? Можно задать 4 вопроса за 10 минут? Взамен дам бесплатный доступ к карте.
+- **Per request (x402):** $0.01–0.05 per point or route check. Machines pay machines, no contracts.
+- **Business plans:** zone alerts and claim history, $200–2,000 per month.
+- **Share of revenue to the reward vault:** more data sold means more paid to sensors.
 
-## Скрипт сообщения (EN)
-> Hi — I'm building JamMap, a phone-based network that detects GPS jamming and spoofing on the ground and maps risk zones. Have your drones/vehicles/trackers ever hit GPS outages? Could I ask 4 questions in 10 minutes? You'd get free access to the map in return.
+These are planned prices to be tested in interviews.
 
-## 4 вопроса на интервью
-1. Когда в последний раз у вас был сбой GPS? Что сломалось и сколько это стоило (время, деньги, техника)?
-2. Как вы сейчас узнаёте, где опасно? (Если никак, это сильный сигнал.)
-3. Если бы перед вылетом/рейсом вы видели риск по маршруту, что бы вы сделали иначе?
-4. Сколько бы вы заплатили: за одну проверку, в месяц? Кто у вас принимает такое решение?
+## Why now
 
-Не продавай. Слушай, записывай точные цитаты и цифры.
+1. GPS jamming rose 67% and spoofing 193% from 2023 to 2025 (IATA).
+2. Android has exposed raw GNSS measurements since Android 7, and AGC since Android 8. Billions of phones can already sense interference.
+3. Solana makes per-report verification cost a fraction of a cent, and x402 + USDC let drones buy data without a human in the loop.
 
-## Где искать
-- Telegram-чаты агродронов и операторов DJI Agras в Казахстане и Узбекистане.
-- Агрохолдинги юга Казахстана (точное земледелие).
-- Телематические компании и транспортные компании на коридорах Китай — ЦА — Россия.
-- Международные: r/drones, чаты пилотов и операторов дронов в странах Балтии, ассоциации операторов БПЛА.
-- Superteam KZ: попроси интро к компаниям, которые используют GPS.
+## Outreach message
 
-## Таблица результатов (заполняй, пойдёт в заявку)
-| Дата | Кто (компания, роль) | Был сбой? | Цитата | Готов платить? | Следующий шаг |
+> Hi, I'm building JamMap, a network of phones that detects GPS jamming and spoofing on the ground and maps risk zones. Have your drones, vehicles or trackers ever lost GPS? Could I ask four questions in ten minutes? You'd get free access to the map in return.
+
+## Interview questions
+
+1. When did you last have a GPS failure? What broke, and what did it cost (time, money, equipment)?
+2. How do you find out today where it is unsafe to operate?
+3. If you saw interference risk along a route before a flight or trip, what would you do differently?
+4. What would you pay per check or per month? Who decides on a purchase like this?
+
+Listen; don't pitch. Write down exact quotes and numbers.
+
+## Where to find them
+
+- Telegram groups for agricultural drone operators (DJI Agras users) in Kazakhstan and Uzbekistan
+- Agricultural holdings in southern Kazakhstan using precision farming
+- Telematics and trucking companies on the China – Central Asia – Russia corridors
+- International: r/drones, drone operator groups in the Baltics, UAV operator associations
+- Introductions through Superteam Kazakhstan
+
+## Results log (goes into the submission)
+
+| Date | Who (company, role) | Had GPS issues? | Quote | Would pay? | Next step |
 |---|---|---|---|---|---|
 | | | | | | |
 
-## Метрики, которые стоит показать на питче
-- Сколько телефонов подключено (даже 10 реальных людей — это хорошо).
-- Сколько часов прослушки и сколько отчётов.
-- Сколько компаний сказали «да» и одна-две сильные цитаты.
+## Metrics to show in the pitch
+
+- Phones running the app (even 10 real people counts)
+- Hours of listening and number of reports
+- Companies that said yes, plus one or two strong quotes

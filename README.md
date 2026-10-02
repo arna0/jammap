@@ -71,6 +71,13 @@ flowchart LR
 | [GEODNET](https://geodnet.com), [Onocoy](https://www.onocoy.com) | Fixed reference stations | Yes, for positioning corrections | Token rewards, not interference |
 | **JamMap** | Phones people already carry | Yes | Each confirmed incident on Solana |
 
+## Pitch deck and videos
+
+- Pitch deck: https://claude.ai/artifact/WP6sYE6wS667MmrC35LDj9 (export to PDF and add to `docs/` before submitting)
+- Pitch video script: [docs/PITCH-VIDEO-SCRIPT.md](docs/PITCH-VIDEO-SCRIPT.md)
+- Demo video script: [docs/DEMO-VIDEO-SCRIPT.md](docs/DEMO-VIDEO-SCRIPT.md)
+- Full setup: [docs/SETUP.md](docs/SETUP.md)
+
 ## Run locally (5 minutes, no blockchain required)
 
 ```bash

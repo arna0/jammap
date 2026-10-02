@@ -1,31 +1,33 @@
-# Чек-лист подачи — Colosseum Crypto World's Fair
+# Submission checklist: Colosseum Crypto World's Fair
 
-**Дедлайн:** 13.10.2026 06:59 UTC (11:59 по Шымкенту). Цель — подать **12.10 вечером**.
-Источник требований: https://colosseum.com/hackathon (FAQ «What is the required information in the submission portal?»).
+**Deadline:** 13 October 2026, 06:59 UTC. Target: submit on 12 October.
+Requirements source: https://colosseum.com/hackathon (FAQ "What is the required information in the submission portal?").
 
-Ответы в форме пиши **сам**: судьи читают их как слова команды. Ниже вопросы, на которые нужно ответить для себя перед заполнением.
+Write the form answers yourself; judges read them as the team's own words. Use these questions to prepare.
 
-| Поле формы | Что подготовить | Вопросы к себе |
+| Form field | Prepare | Ask yourself |
 |---|---|---|
-| Название + краткое описание | JamMap + одно предложение | Поймёт ли человек вне крипты, что это, за 5 секунд? |
-| Блокчейны и инструменты | Solana, Anchor, Ed25519 program, SPL Token, USDC, x402, Android GNSS API | Что из этого реально работает в демо, а что в планах? Пиши честно. |
-| Команда + опыт | Каждый участник со своим аккаунтом Colosseum | Почему именно ты? Что ты понял о проблеме, чего не знают другие? |
-| Где находится команда | Шымкент, Казахстан | — |
-| Логотип | `web/logo.svg` (можно экспортировать в PNG) | — |
-| GitHub | Публичный репозиторий с ежедневными коммитами | Видно ли по истории, что работа шла во время хакатона? Есть ли README с запуском за 5 минут? |
-| Питч-видео 2–3 мин | `docs/PITCH-VIDEO-SCRIPT.md` | Звук чистый? Есть цифры и источник? Видно лицо? |
-| Демо-видео ≤ 3 мин | `docs/DEMO-VIDEO-SCRIPT.md` | Видно настоящую транзакцию в Explorer? Видно телефон? |
-| GTM, проверка спроса, дистрибуция | `docs/GTM-AND-VALIDATION.md` + таблица интервью | Сколько компаний сказали «да»? Как получишь первые 100 телефонов и первого платящего клиента? |
-| Предыдущая работа | Отметь: идея и код начаты 2 октября 2026 | Есть ли код, написанный до хакатона? (Нет, раскрывать нечего.) |
+| Name and short description | JamMap + one sentence | Would someone outside crypto understand it in five seconds? |
+| Blockchains and tools | Solana, Anchor, Ed25519 program, SPL Token, USDC, x402, Android GNSS API | Which parts work in the demo, and which are planned? Be precise. |
+| Team and experience | Every member needs a Colosseum account | Why you? What do you understand about this problem that others don't? |
+| Location | Shymkent, Kazakhstan | |
+| Logo | `web/logo.svg` (export to PNG if needed) | |
+| GitHub repository | Public repo with daily commits | Does the history show the work happened during the hackathon? Can a judge run it in five minutes from the README? |
+| Pitch video, 2–3 min | `docs/PITCH-VIDEO-SCRIPT.md` + the deck | Clear audio? Sources for numbers? Face visible? |
+| Demo video, ≤3 min | `docs/DEMO-VIDEO-SCRIPT.md` | Does it show a real Solana Explorer transaction and the phone? |
+| Go-to-market, validation, distribution | `docs/GTM-AND-VALIDATION.md` + interview log | How many companies said yes? How do you get the first 100 phones and the first paying customer? |
+| Prior work | The idea and code started on 2 October 2026 | Any code written before the hackathon must be disclosed (none here). |
 
-## Технически перед подачей
-- [ ] `anchor test` проходит.
-- [ ] Программа задеплоена на devnet, ID в README.
-- [ ] `npm test` в `server/` проходит.
-- [ ] Приложение собрано и запущено хотя бы на одном реальном телефоне.
-- [ ] В репозитории нет `.keys/`, `.env` и чужих ключей (проверь `git status`).
-- [ ] README открывается на GitHub, схема рисуется.
+## Technical checks before submitting
 
-## Рекомендуется (не обязательно)
-- [ ] Еженедельное видео-апдейт на 1 минуту в Arena (Colosseum прямо советует).
-- [ ] Пост в X/Telegram с демо, отметь @colosseum и @SuperteamKZ.
+- [ ] `anchor test` passes
+- [ ] Program deployed to devnet; program ID in the README
+- [ ] `npm test` passes in `server/`
+- [ ] App built and run on at least one real phone
+- [ ] No `.keys/`, `.env` or credentials in the repository (`git status`)
+- [ ] README renders on GitHub, including the diagram
+
+## Recommended
+
+- [ ] One-minute weekly update videos in Arena (Colosseum recommends them)
+- [ ] A post on X with the demo, tagging @colosseum and @SuperteamKZ
