@@ -6,7 +6,7 @@ Judging criteria: founder–market fit, insight, product and execution, market s
 
 | Slide | Time | Narration |
 |---|---|---|
-| 1 Cover | 0:00–0:12 | Hi, I'm [name] from Shymkent, Kazakhstan. This is JamMap. We use ordinary Android phones to detect when GPS is being jammed or faked, confirm each incident on Solana once several phones agree, and sell that map to drone and fleet software. |
+| 1 Cover | 0:00–0:12 | Hi, I'm Tailan Arnur from Shymkent, Kazakhstan. This is JamMap. We use ordinary Android phones to detect when GPS is being jammed or faked, confirm each incident on Solana once several phones agree, and sell that map to drone and fleet software. |
 | 2 Problem | 0:12–0:32 | GPS jamming and spoofing are no longer rare. According to IATA, spoofing grew 193 percent and jamming 67 percent between 2023 and 2025. At the 2024 peak, spoofing hit up to 1,500 flights a day. Jamming blocks the signal. Spoofing is worse: it feeds the receiver a fake position, and the device believes it. |
 | 3 Gap | 0:32–0:50 | Existing interference maps come from aircraft, so they only cover airways. On the ground, where drones, trucks and tractors operate, nobody is measuring. A farm drone or a delivery fleet has no warning until something goes wrong. |
 | 4 Insight | 0:50–1:12 | Billions of Android phones already contain a GPS receiver, and Android lets apps read raw satellite data. Two numbers matter: signal-to-noise and the receiver's gain. When someone jams, both drop. When a phone is just in a pocket, the signal drops but the gain goes up. That difference is how we avoid false alarms. |
@@ -15,13 +15,13 @@ Judging criteria: founder–market fit, insight, product and execution, market s
 | 7 Why Solana | 1:58–2:12 | Solana gives us records nobody can edit, which matters for insurers; token rewards that grow coverage where the problem is; and machine payments with fees far below a cent. |
 | 8 Customers | 2:12–2:26 | Drone operators, precision farming, fleet tracking and insurers pay per request or per month, and part of the revenue goes back to the phones. |
 | 10 Traction | 2:26–2:42 | So far: [N phones, N hours, N interviews, best quote]. Next: device attestation against fake phones, 100 phones in Shymkent and Almaty, and a paid pilot with a drone operator. |
-| 11 Team | 2:42–2:55 | I'm [name], [one line about you and why you care]. JamMap: know where GPS can't be trusted. Thank you. |
+| 11 Team | 2:42–2:55 | I'm Tailan Arnur, [one line about you and why you care]. JamMap: know where GPS can't be trusted. Thank you. |
 
 Slide 9 (competition) can be shown silently during slide 8 if time is short.
 
 ## Silent slide video
 
-`python docs/deck/build_pitch_video.py` renders the slides in `docs/deck/slides/` into `docs/deck/out/pitch-video.mp4` (2:52, slides timed to this script) and `pitch-video.srt` (the narration, timed). Record your voice over the video, for example in CapCut or Clipchamp: import the MP4, add a voice-over track, and use the SRT as a teleprompter or as subtitles. After editing a slide (e.g. replacing `[Your name]`), run the script again.
+`python docs/deck/build_pitch_video.py` renders the slides in `docs/deck/slides/` into `docs/deck/out/pitch-video.mp4` (2:52, slides timed to this script) and `pitch-video.srt` (the narration, timed). Record your voice over the video, for example in CapCut or Clipchamp: import the MP4, add a voice-over track, and use the SRT as a teleprompter or as subtitles. After editing a slide (e.g. filling in the traction numbers), run the script again.
 
 ## Recording checklist
 
