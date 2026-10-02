@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JamMap — live GNSS interference map</title>
+  <meta name="description" content="Phones detect GPS jamming and spoofing; Solana confirms it; anyone can buy the data per request." />
+  <link rel="icon" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="logo.svg" alt="" width="30" height="30" />
+      <div>
+        <h1>JamMap</h1>
+        <p>Phones that hear GPS attacks. Solana that proves them.</p>
+      </div>
+    </div>
+    <div class="badges">
+      <span class="live"><i></i>LIVE</span>
+      <a id="chainBadge" class="badge" target="_blank" rel="noopener">chain: …</a>
+      <span id="previewBadge" class="badge warn" hidden>DEMO · paid layer preview</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="mapwrap">
+      <div id="map" aria-label="Interference map"></div>
+      <div class="legend">
+        <span><i class="sw jam"></i>Jamming</span>
+        <span><i class="sw spoof"></i>Spoofing</span>
+        <span><i class="sw pend"></i>Unconfirmed</span>
+        <span><i class="sw dev"></i>Phone (±500 m)</span>
+        <button id="fitBtn" type="button">Fit</button>
+        <label class="toggle" id="previewToggle" hidden><input type="checkbox" id="previewChk" checked /> source estimates</label>
+      </div>
+    </section>
+
+    <aside class="side">
+      <div class="stats" id="stats">
+        <div><b data-k="activeDevices">0</b><span>phones online</span></div>
+        <div><b data-k="reports">0</b><span>signed reports</span></div>
+        <div><b data-k="confirmed">0</b><span>confirmed incidents</span></div>
+        <div><b data-k="onchainTxs">0</b><span>on-chain txs</span></div>
+      </div>
+
+      <h2>Incidents <small>last 24 h · quorum of distinct phones</small></h2>
+      <ul id="incidents" class="incidents"><li class="empty">Listening… no interference yet.</li></ul>
+
+      <h2>Data API <span class="pill">x402</span></h2>
+      <div class="api">
+        <p>Precise incidents, source estimates and a risk score around any point. Pay per request in USDC, no account, no API key — built for drones and fleet software.</p>
+        <pre id="curl">GET /v1/risk?lat=42.32&lon=69.62&radius_km=25
+← 402 Payment Required · 0.01 USDC</pre>
+        <button id="tryBtn" type="button">Buy one request</button>
+        <div id="apiOut" class="apiout" hidden></div>
+      </div>
+
+      <h2>Live feed</h2>
+      <ol id="feed" class="feed"></ol>
+    </aside>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
