@@ -4,6 +4,10 @@
 
 JamMap detects GPS jamming and spoofing with ordinary Android phones, confirms each incident on Solana once several independent phones agree, and sells the resulting ground-level map to drone, fleet and insurance software, paid per request in USDC.
 
+### ▶ [Live demo](https://arna0.github.io/jammap/): the dashboard in your browser, nothing to install
+
+> The demo replays a recorded run of the real relayer and the virtual phone fleet in Shymkent (`server/src/sim.js`): watch phones report jamming and spoofing, and incidents get confirmed once 3 phones agree. Click the map to check risk at a point or along a route; payments there are simulated. The recording is refreshed on every push by [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+
 ## Problem
 
 GNSS interference has spread well beyond conflict zones. IATA reports that GPS jamming rose 67% and spoofing 193% between 2023 and 2025, and spoofing affected up to about 1,500 flights a day in 2024 ([summary](https://migflug.com/afterburner/gps-spoofing-up-193-pilots-are-flying-blind/), [white paper](https://gpswise.aero/white_paper.pdf)).

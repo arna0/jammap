@@ -1,0 +1,67 @@
+name: Deploy demo to GitHub Pages
+
+# Records a run of the real relayer + phone simulator, then publishes the
+# dashboard with that recording (web/demo.js replays it in the browser).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install relayer
+        working-directory: server
+        run: npm ci --no-audit --no-fund
+      - name: Record a simulator run (about 2.5 minutes)
+        working-directory: server
+        env:
+          STATE_FILE: /tmp/jammap-state.json
+        run: |
+          node src/index.js --demo > /tmp/server.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8787/v1/status > /dev/null && break; sleep 1; done
+          node src/sim.js --region shymkent > /tmp/sim.log 2>&1 &
+          mkdir -p /tmp/frames
+          for i in $(seq -w 1 40); do
+            sleep 4
+            curl -sf "http://127.0.0.1:8787/v1/map?preview=1" > /tmp/frames/$i.json
+          done
+          node -e "
+            const fs = require('fs');
+            const files = fs.readdirSync('/tmp/frames').sort();
+            const frames = files.map((f) => JSON.parse(fs.readFileSync('/tmp/frames/' + f, 'utf8')));
+            fs.mkdirSync('../web/demo', { recursive: true });
+            fs.writeFileSync('../web/demo/frames.json', JSON.stringify(frames));
+            const last = frames[frames.length - 1];
+            console.log('frames:', frames.length, 'incidents:', last.stats.incidents, 'confirmed:', last.stats.confirmed);
+          "
+          echo '--- server log'; tail -n 15 /tmp/server.log
+          echo '--- sim log'; tail -n 15 /tmp/sim.log
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
