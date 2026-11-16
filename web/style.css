@@ -1,22 +1,22 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --bg: light-dark(#f6f7f9, #0c0e11);
-  --surface: light-dark(#ffffff, #14171b);
-  --surface-2: light-dark(#f1f3f5, #1a1e23);
-  --border: light-dark(#e3e6ea, #252a31);
-  --border-strong: light-dark(#cdd2d8, #343a43);
-  --text: light-dark(#121519, #e7e9ec);
-  --muted: light-dark(#5c6570, #8d959f);
-  --faint: light-dark(#8c949d, #5e6670);
-  --accent: light-dark(#2853c8, #86a5ff);
-  --accent-text: light-dark(#ffffff, #0c0e11);
-  --jam: light-dark(#d0353b, #ff6369);
-  --spoof: light-dark(#7a3cbf, #b67ff2);
-  --warn: light-dark(#a35f00, #eeb04f);
-  --ok: light-dark(#1b7a49, #4cc38a);
+  --bg: #1d1d1d;
+  --surface: #252525;
+  --surface-2: #2c2c2c;
+  --border: #333333;
+  --border-strong: #444444;
+  --text: #f2f2f0;
+  --muted: #9a9a96;
+  --faint: #6b6b67;
+  --accent: #dfe8a0;
+  --accent-text: #1a1a14;
+  --jam: #ff6369;
+  --spoof: #b67ff2;
+  --warn: #eeb04f;
+  --ok: #4cc38a;
 
-  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --sans: 'Montserrat', system-ui, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, monospace;
   --radius: 6px;
 
@@ -214,3 +214,14 @@ button.ghost { background: none; color: var(--text); border-color: var(--border-
   .kpis div:nth-child(n + 3) { border-top: 1px solid var(--border); }
   .legend { bottom: 28px; }
 }
+
+/* Thin vertical column lines over the page, like the reference layout */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background-image: repeating-linear-gradient(to right, transparent 0 calc(20% - 1px), rgba(255, 255, 255, 0.03) calc(20% - 1px) 20%);
+}
+button { border-radius: 999px; }
