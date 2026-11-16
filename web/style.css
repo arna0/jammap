@@ -1,16 +1,16 @@
 :root {
   color-scheme: dark;
 
-  --bg: #1d1d1d;
-  --surface: #252525;
-  --surface-2: #2c2c2c;
-  --border: #333333;
-  --border-strong: #444444;
-  --text: #f2f2f0;
-  --muted: #9a9a96;
-  --faint: #6b6b67;
-  --accent: #dfe8a0;
-  --accent-text: #1a1a14;
+  --bg: #0b120e;
+  --surface: #111b16;
+  --surface-2: #16231d;
+  --border: #213229;
+  --border-strong: #2f4639;
+  --text: #e4f1e8;
+  --muted: #86a393;
+  --faint: #5b7466;
+  --accent: #7cf29a;
+  --accent-text: #062010;
   --jam: #ff6369;
   --spoof: #b67ff2;
   --warn: #eeb04f;
@@ -222,6 +222,6 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 1000;
-  background-image: repeating-linear-gradient(to right, transparent 0 calc(20% - 1px), rgba(255, 255, 255, 0.03) calc(20% - 1px) 20%);
+  background-image: repeating-linear-gradient(to right, transparent 0 calc(20% - 1px), rgba(124, 242, 154, 0.04) calc(20% - 1px) 20%);
 }
 button { border-radius: 999px; }
